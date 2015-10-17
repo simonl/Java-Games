@@ -1,10 +1,9 @@
-package boubouworld;
+package boubouworld2;
 
 public class Coordinates
 {
     //Instance variables
-    public static final double DELAY = 0.1;
-    private double time, positionX, positionY;
+    private double X, Y, Z;
 	
     
     //Constructors
@@ -13,53 +12,82 @@ public class Coordinates
     
     }
     
-    public Coordinates(double time, double positionX, double positionY)
+    public Coordinates(double X)
     {        
-	this.time = time;
-	this.positionY = positionY;
-	this.positionX = positionX;
+	this.X = X;
     }
     
-    public double getTime()
-    {
-	return time;
-    }    
-    
-    public double getPositionY()
-    {
-	return positionY;
+    public Coordinates(double X, double Y)
+    {        
+	this.X = X;
+	this.Y = Y;
     }
     
-    public double getPositionX()
-    {
-	return positionX;
+    public Coordinates(double X, double Y, double Z)
+    {        
+	this.X = X;
+	this.Y = Y;
+	this.Z = Z;
     }
     
-    public void setTime(double time)
+    
+    public double getX()
     {
-	this.time = time;
+	return X;
     }
     
-    public void setPositionY(double positionY)
+    public double getY()
     {
-	this.positionY = positionY;
+	return Y;
     }
     
-    public void setPositionX(double positionX)
+    public double getZ()
     {
-	this.positionX = positionX;
+	return Z;
     }
+    
+	
+    public void setX(double X)
+    {
+	this.X = X;
+    }
+    
+    public void setY(double Y)
+    {
+	this.Y = Y;
+    }
+    
+    public void setZ(double Z)
+    {
+	this.Z = Z;
+    }
+    
     
     //CUSTOM
-    public void updatePosition(double speedX, double speedY)
+    public void updateCoordinates(double dX)
     {
-	setPositionX(getPositionX() + speedX*DELAY);
-	setPositionY(getPositionY() + speedY*DELAY);
-	setTime(getTime() + DELAY);
+	setX(getX() + dX);
     }
     
-    public double getProximity(Coordinates point)
+    public void updateCoordinates(double dX, double dY)
+    {
+	setX(getX() + dX);
+	setY(getY() + dY);
+    }
+    
+    public void updateCoordinates(double dX, double dY, double dZ)
+    {
+	setX(getX() + dX);
+	setY(getY() + dY);
+	setZ(getZ() + dZ);
+    }
+    
+    public double getDifference(Coordinates point)
     {        
-	return (Math.pow(Math.pow(point.getPositionX()-positionX, 2.0) + Math.pow(point.getPositionY()-positionY, 2.0), 0.5)); 
+	double deltaX = point.getX() - getX();
+	double deltaY = point.getY() - getY();
+	double deltaZ = point.getZ() - getZ();
+	
+	return (Math.pow(Math.pow(deltaX, 2.0) + Math.pow(deltaY, 2.0) + Math.pow(deltaZ, 2.0), 0.5)); 
     }
 }

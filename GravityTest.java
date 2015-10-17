@@ -5,31 +5,9 @@ import javax.swing.*;
 import java.io.*;
 import javax.imageio.*;
 
-public class Spring
+public class GravityTest
 {
-
-    private double springConstant, spirals, width, thickness;
-    private double normalLenght, minLenght, maxLenght;
-    
     public Point anchor1 = null, anchor2 = null, springMiddle;
-    
-    public Spring()
-    {
-    
-    }
-    
-    public Spring(double normalLenght, double springConstant, double spirals)
-    {
-	this.normalLenght = normalLenght;
-	this.springConstant = springConstant;
-	this.spirals = spirals;
-	
-	this.width = 0.05;
-	this.thickness = 0.002;
-	
-	this.maxLenght = Math.pow(Math.pow(normalLenght, 2.0) + Math.pow(2*Math.PI*width*spirals, 2.0), 0.5);
-	this.minLenght = thickness * spirals;
-    }
     
 	public static void main(String[] args)
 	{
@@ -126,9 +104,8 @@ public class Spring
 	    return (new Coordinates(0.0, (anchor1.getPositionX()+anchor2.getPositionX())/2.0, (anchor1.getPositionY()+anchor2.getPositionY())/2.0));
 	}
 	
+	      
+	    
 	
-	public void breakSpring()
-	{
 	
-	}
 }
