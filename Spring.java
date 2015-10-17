@@ -11,8 +11,8 @@ public class Spring
     private double springConstant, spirals, width, thickness;
     private double normalLenght, minLenght, maxLenght;
     
-    public Point anchor1 = null, anchor2 = null, springMiddle;
-    
+    public static CoordinateSystem anchor1 = null, anchor2 = null, springMiddle;
+    public WindowSpring window = null;
     public Spring()
     {
     
@@ -40,11 +40,9 @@ public class Spring
 	    //GO!
 			
 	    anchor1 = new CoordinateSystem();
-		anchor1.setLimitsMotion(1000.0, 1000.0, 1000.0, 1000.0);
-		anchor1.setLimitsPosition(-10000.0, 10000.0, -10000.0, 10000.0);
+		anchor1.setLimits(1000.0, 1000.0, 1000.0, 1000.0);
 	    anchor2 = new CoordinateSystem();
-		anchor2.setLimitsMotion(1000.0, 1000.0, 1000.0, 1000.0);
-		anchor2.setLimitsPosition(-10000.0, 10000.0, -10000.0, 10000.0);
+		anchor2.setLimits(1000.0, 1000.0, 1000.0, 1000.0);
 	    
 	    anchor1.setPositionX(450.0);
 	    anchor1.setPositionY(450.0);

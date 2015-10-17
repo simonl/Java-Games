@@ -10,8 +10,7 @@ public class TankGame
 	public static void main(String[] args)
 	{
 	    double globalTime = 0.0000;
-	    final int FPS = 30;
-	    final double DELAY = 1.0/FPS;
+	    final double DELAY = 0.05;
 	    int loops = (int)(10/DELAY), counter = 0;
 	    
 	    Tank tank1 = null, tank2 = null;      
@@ -129,13 +128,13 @@ public class TankGame
 	
 	public static void checkTankForWall(Tank tank)
 	{            
-	    if(tank.coordinates.getPositionX()-tank.tankDimensions.getWidth()/2.0 <= tank.coordinates.limitLeft) 
+	    if(tank.coordinates.getPositionX() <= tank.tankDimensions.getWidth()) 
 	    {
-		tank.crash(tank.coordinates.getSpeedX(), tank.coordinates.limitLeft-tank.tankDimensions.getWidth()/2.0);
+		tank.crash(tank.coordinates.getSpeedX(), 20.0);
 	    }
-	    else if(tank.coordinates.getPositionX()+tank.tankDimensions.getWidth()/2.0 >= tank.coordinates.limitRight) 
+	    else if(tank.coordinates.getPositionX()+tank.tankDimensions.getWidth() >= 992.0) 
 	    {
-		tank.crash(tank.coordinates.getSpeedX(), tank.coordinates.limitRight-tank.tankDimensions.getWidth()/2.0);
+		tank.crash(tank.coordinates.getSpeedX(), 972.0);
 	    }
 	}
 	

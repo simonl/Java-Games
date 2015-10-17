@@ -11,7 +11,6 @@ public class PanneauCannon extends JPanel
 	public double lifeTank1, lifeTank2, speedTank1, speedTank2;
 	
 	private int playerBoxSide = 100, tankL = 20, tankH = 10, ballR = 10, textH = 10 , spacing = 5;
-	private int width = this.getWidth(), groundLevel = this.getHeight() - 100;
 	
 	public PanneauCannon()
 	{
@@ -20,85 +19,89 @@ public class PanneauCannon extends JPanel
 	
 	
 	public void paintComponent(Graphics g)
-	{                   
+	{   
+	    int width = this.getWidth();
+	    int groundLevel = this.getHeight() - 100;
+	    
 	    Graphics2D g2d = (Graphics2D) g;
+	    GradientPaint gp = new GradientPaint(0, 0, Color.BLUE, 0, groundLevel, Color.cyan, true);
 	    
-	    drawArea(g2d);
-			
-	    drawPlayer(g2d, tank1, 1, 0);
-	    drawPlayer(g2d, tank2, 2, width-playerBoxSide);
-	    
-	    drawBall(g2d, ball1, 1);
-	    drawBall(g2d, ball2, 1);
-	    drawBall(g2d, ball3, 2);
-	    drawBall(g2d, ball4, 2);
-	}
-
-	public void drawArea(Graphics2D g2d)
-	{
-	    g2d.setPaint(new GradientPaint(0, 0, Color.BLUE, 0, groundLevel, Color.cyan, true));
+	    g2d.setPaint(gp);
 	    g2d.fillRect(0, 0, width, groundLevel);
 	    
-	    g2d.setPaint(new GradientPaint(0, 0, Color.GREEN, 0, 100, Color.BLACK, true));
+	    gp = new GradientPaint(0, 0, Color.GREEN, 0, 100, Color.BLACK, true);
+	    
+	    g2d.setPaint(gp);
 	    g2d.fillRect(0, groundLevel, width, 100);
 	    
 	    g2d.setColor(Color.GRAY);
 	    g2d.fillRect(0, 0, 10, groundLevel);
 	    g2d.fillRect(width-10, 0, 10, groundLevel);
-	}
-	
-	public void drawPlayer(Graphics2D g2d, Coordinates tank, int number, int boxLeft)
-	{
-	    int lifeTank, speedTank;
-	
-	    if(tank != null) 
-	    {
 	    
-		if(number == 1)
-		{
-		    g2d.setColor(Color.RED);
-		    lifeTank = (int)lifeTank1;
-		    speedTank = (int)speedTank1;
-		}
-		else
-		{
-		    g2d.setColor(Color.ORANGE);
-		    lifeTank = (int)lifeTank2;
-		    speedTank = (int)speedTank2;
-		}
-		
-		g2d.fillRect((int)tank.getPositionX()-tankL/2, groundLevel-tankH, tankL, tankH);
-	
-		    g2d.setPaint(new GradientPaint(0, 0, g2d.getColor(), playerBoxSide, playerBoxSide, Color.BLACK, true));
-		g2d.fillRect(boxLeft, 0, playerBoxSide, playerBoxSide);
 			
-		    g2d.setColor(Color.BLACK);
-		g2d.drawString("" + number, (int)tank.getPositionX(), groundLevel);
-		g2d.drawString("        TANK " + number, boxLeft + spacing, textH+spacing);
-		g2d.drawString("POSITION : " + (int)tank.getPositionX(), boxLeft + spacing, 2*textH+3*spacing);
-		g2d.drawString("HEALTH   : " + lifeTank, boxLeft + spacing, 3*textH+4*spacing);
-		g2d.drawString("SPEED    : " + speedTank, boxLeft + spacing, 4*textH+5*spacing);
+	if(tank1 != null) {
+		gp = new GradientPaint(0, 0, Color.RED, playerBoxSide, playerBoxSide, Color.BLACK, true);
+		g2d.setPaint(gp);
+	    g2d.fillRect(0, 0, playerBoxSide, playerBoxSide);
+	    
+		g2d.setColor(Color.RED);
+	    g2d.fillRect((int)tank1.getPositionX()-tankL/2, groundLevel-tankH, tankL, tankH);
 	    }
-	}
-	
-	public void drawBall(Graphics2D g2d, Coordinates ball, int number)
+	    
+	if(ball1 != null)
+	    g2d.fillOval(((int)ball1.getPositionX())-ballR/2, groundLevel-(int)ball1.getPositionY()-ballR/2, ballR, ballR);
+	    
+	if(ball2 != null)
+	    g2d.fillOval(((int)ball2.getPositionX())-ballR/2, groundLevel-(int)ball2.getPositionY()-ballR/2, ballR, ballR);
+
+			
+	if(tank2 != null) {
+		gp = new GradientPaint(width, 0, Color.ORANGE, width-playerBoxSide, playerBoxSide, Color.BLACK, true);
+		g2d.setPaint(gp);
+	    g2d.fillRect(width-playerBoxSide, 0, playerBoxSide, playerBoxSide);
+	    
+		g2d.setColor(Color.ORANGE);
+	    g2d.fillRect((int)tank2.getPositionX()-tankL/2, groundLevel-tankH, tankL, tankH);
+	    }
+	    
+	if(ball3 != null)
+	    g2d.fillOval(((int)ball3.getPositionX())-ballR/2, groundLevel-(int)ball3.getPositionY()-ballR/2, ballR, ballR);
+	    
+	if(ball4 != null)
+	    g2d.fillOval(((int)ball4.getPositionX())-ballR/2, groundLevel-(int)ball4.getPositionY()-ballR/2, ballR, ballR);
+
+
+
+	    g2d.setColor(Color.BLACK);
+
+	if(tank1 != null)
 	{
-	    if(ball != null)
-	    {
-	    
-		if(number == 1)
-		    g2d.setColor(Color.RED);
-		else
-		    g2d.setColor(Color.ORANGE);
-		
-		g2d.fillOval(((int)ball.getPositionX())-ballR/2, groundLevel-(int)ball.getPositionY()-ballR/2, ballR, ballR);
-		
-		    g2d.setColor(Color.BLACK);
-		g2d.drawString("" + number, (int)ball.getPositionX(), groundLevel-(int)ball.getPositionY()+10);
-	    }
+	    g2d.drawString("1", (int)tank1.getPositionX(), groundLevel);
+	    g2d.drawString("        TANK 1", spacing, textH+spacing);
+	    g2d.drawString("POSITION : " + (int)tank1.getPositionX(), spacing, 2*textH+3*spacing);
+	    g2d.drawString("HEALTH   : " + (int)lifeTank1, spacing, 3*textH+4*spacing);
+	    g2d.drawString("SPEED    : " + (int)speedTank1, spacing, 4*textH+5*spacing);
+	}
+	if(ball1 != null)
+	    g2d.drawString("1", (int)ball1.getPositionX(), groundLevel-(int)ball1.getPositionY()+10);
+	if(ball2 != null)
+	    g2d.drawString("1", (int)ball2.getPositionX(), groundLevel-(int)ball2.getPositionY()+10);
+
+	if(tank2 != null)
+	{
+	    g2d.drawString("2", (int)tank2.getPositionX(), groundLevel);
+	    g2d.drawString("        TANK 2", width-playerBoxSide+spacing, textH+spacing);
+	    g2d.drawString("POSITION : " + (int)tank2.getPositionX(), width-playerBoxSide+spacing, 2*textH+3*spacing);
+	    g2d.drawString("HEALTH   : " + (int)lifeTank2, width-playerBoxSide+spacing, 3*textH+4*spacing);
+	    g2d.drawString("SPEED    : " + (int)speedTank2, width-playerBoxSide+spacing, 4*textH+5*spacing);
+	}
+	if(ball3 != null)
+	    g2d.drawString("2", (int)ball3.getPositionX(), groundLevel-(int)ball3.getPositionY()+10);
+	if(ball4 != null)
+	    g2d.drawString("2", (int)ball4.getPositionX(), groundLevel-(int)ball4.getPositionY()+10);
+
 	    
 	}
-	
-	
+
 
 } // Panneau class

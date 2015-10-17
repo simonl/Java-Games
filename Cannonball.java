@@ -17,8 +17,7 @@ public class Cannonball
 {
     //Instance variables
     public static final double G = 9.80000;
-    public static final int FPS = 30;
-    public static final double DELAY = 1.0/FPS;
+    public static final double DELAY = 0.05;
     public static Dimensions ballDimensions = new Dimensions(10.0, 10.0, 2);
     
     private int id;
@@ -32,7 +31,7 @@ public class Cannonball
     public Cannonball(double timeStamp, int id, double positionX)
     {        
 	setId(id);
-	shotPosition = new Coordinates(timeStamp, positionX, 1.0);
+	shotPosition = new Coordinates(timeStamp, positionX, 1.0);System.out.println("Hi");
     }
 	
     
@@ -57,17 +56,17 @@ public class Cannonball
     public void defineTrajectory(double xSpeed, double ySpeed)
     {
 	coordinates = new CoordinateSystem(shotPosition.getPositionX(), shotPosition.getPositionY(), xSpeed, ySpeed);
-	
+	System.out.println("Hi");
 	double maxTime = 2.0 * ySpeed /G + shotPosition.getPositionY() / (ySpeed + G / 2.0);
 	double maxDistance = maxTime * xSpeed + shotPosition.getPositionX();
 	
-	    finalPosition = new Coordinates(maxTime, maxDistance, 0.0);
+	    finalPosition = new Coordinates(maxTime, 0.0, maxDistance);
 		
 	double criticalTime = ySpeed / G;
 	double maxHeight = Math.pow(ySpeed, 2) / 2.0 / G + shotPosition.getPositionY();
 	double criticalDistance = criticalTime * xSpeed + shotPosition.getPositionX();
 	
-	    midWayPosition = new Coordinates(criticalTime, criticalDistance, maxHeight);
+	    midWayPosition = new Coordinates(criticalTime, maxHeight, criticalDistance);
 	    
     }
     

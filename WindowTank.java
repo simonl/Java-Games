@@ -7,8 +7,7 @@ import javax.imageio.*;
 public class WindowTank extends JFrame
 {
 	private PanneauCannon panel = new PanneauCannon();
-	public static final int FPS = 30;
-	public static final double DELAY = 1.0/FPS;
+	public final double DELAY = 0.05;
 	private int frameWidth = 1000;
 	private int frameHeight = 900;
 	
@@ -68,6 +67,7 @@ public class WindowTank extends JFrame
 		    t = ball.finalPosition.getTime();
 		    d = ball.finalPosition.getPositionX();
 		    h = ball.finalPosition.getPositionY();
+		
 		    point = new Coordinates(t, d, h);
 		}
 		else

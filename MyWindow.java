@@ -6,14 +6,11 @@ import javax.imageio.*;
 
 public class MyWindow extends JFrame
 {
+	private Panneau panel = new Panneau();
 	private int frameWidth = 400;
 	private int frameHeight = 300;
 	private int frameLocationX = 100;
 	private int frameLocationY = 100;
-	
-	private Panneau panel = new Panneau();
-	private JButton bouton = new JButton("mon bouton");
-	private JPanel container = new JPanel();
 	
 	public MyWindow(String s)
 	{
@@ -22,13 +19,7 @@ public class MyWindow extends JFrame
 	    this.setLocation(frameLocationX, frameLocationY);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
-		
-		container.setBackground(Color.white);
-		container.setLayout(new BorderLayout());
-		container.add(panel, BorderLayout.CENTER);
-		container.add(bouton, BorderLayout.SOUTH);
-		
-	    this.setContentPane(container);
+	    this.setContentPane(panel);
 	    this.setVisible(true);
 	    
 	    go();
@@ -65,7 +56,7 @@ public class MyWindow extends JFrame
 		
 		panel.repaint();  
 		try {
-		    Thread.sleep(10);
+		    Thread.sleep(0);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

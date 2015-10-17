@@ -16,8 +16,7 @@ import javax.swing.*;
 public class Tank
 {
     //Instance variables
-    public static final int FPS = 30;
-    public static final double DELAY = 1.0/FPS;
+    public static final double DELAY = 0.05;
     public static Dimensions tankDimensions = new Dimensions(20.0, 10.0, 1);
     
     public CoordinateSystem coordinates;
@@ -36,7 +35,7 @@ public class Tank
 	this.name = name;
 	this.id = id;
 	
-	coordinates = new CoordinateSystem(id);
+	coordinates = new CoordinateSystem();
     }
 
     
@@ -96,6 +95,7 @@ public class Tank
     public void play()
     {
 	shootCannonball();
+	System.out.println("Hi " + ball1.coordinates.getPositionX());
 	changeMotion();        
     }
     

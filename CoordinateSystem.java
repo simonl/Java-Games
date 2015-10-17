@@ -16,39 +16,30 @@ import javax.swing.*;
 public class CoordinateSystem
 {
     //Instance variables
-    public static final int FPS = (int)Math.pow(10.0, 6.0);
-    public static final double DELAY = 1.0/FPS;
-    
+    public static final double DELAY = 0.05;
     private static double time;
     
     private double positionX, positionY;
-    public static double limitLeft, limitRight, limitDown, limitUp;
+    private static double limitLeft = 10.0, limitRight = 982.0, limitDown = 0.0, limitUp = 900.0;
     
     private double speedX, speedY;
-    private double limitSpeedX, limitSpeedY;
+    private double limitSpeedX = 100.0, limitSpeedY = 100.0;
     
     private double accelX, accelY;
-    private double limitAccelX, limitAccelY;
+    private double limitAccelX = 100.0, limitAccelY = 100.0;
     
     
     //Constructors
     
     public CoordinateSystem()
     {        
-    
-    }
-    
-    public CoordinateSystem(int number)
-    {        
-	    setLimitsMotion(30.0, 0.0, 1.0, 0.0);
-	    setLimitsPosition(10.0, 974.0, 0.0, 800.0);
+	    setLimits(30.0, 0.0, 1.0, 0.0);
 	setPositionX(getRandomNumber(limitLeft+10.0, limitRight-10.0));
     }
     
     public CoordinateSystem(double positionX, double positionY, double speedX, double speedY)
     {
-	    setLimitsMotion(100.0, 100.0, 0.0, 9.8);
-	    setLimitsPosition(10.0, 974.0, 0.0, 800.0);
+	    setLimits(100.0, 100.0, 0.0, 9.8);
 	setPositionX(positionX);
 	setPositionY(positionY);
 	setSpeedX(speedX);
@@ -184,20 +175,12 @@ public class CoordinateSystem
 	this.accelY = accelY;
     }
     
-    public void setLimitsMotion(double limit1, double limit2, double limit3, double limit4)
+    public void setLimits(double limit1, double limit2, double limit3, double limit4)
     {
 	limitSpeedX = limit1;
 	limitSpeedY = limit2;
 	limitAccelX = limit3;
 	limitAccelY = limit4;
-    }
-    
-    public void setLimitsPosition(double limit1, double limit2, double limit3, double limit4)
-    {
-	limitLeft = limit1;
-	limitRight = limit2;
-	limitDown = limit3;
-	limitUp = limit4;
     }
     
     
@@ -212,12 +195,11 @@ public class CoordinateSystem
 	
     public void updateCoordinates()
     {
-	setPositionX(getPositionX() + getSpeedX() * DELAY);
-	setPositionY(getPositionY() + getSpeedY() * DELAY);
-	
 	setSpeedX(getSpeedX() + getAccelX() * DELAY);
 	setSpeedY(getSpeedY() + getAccelY() * DELAY);
 	
+	setPositionX(getPositionX() + getSpeedX() * DELAY);
+	setPositionY(getPositionY() + getSpeedY() * DELAY);
     }
     
     public double getVelocity()
