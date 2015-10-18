@@ -1,16 +1,21 @@
-package javaapps.tankgame;
+package javaapps.test;
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
 import javax.imageio.*;
 
-public class PanelTank extends JPanel
+public class Panneau extends JPanel
 {
-	
-	private int tankX1, tankX2;
-	private int ballX1, ballY1, ballX1_1, ballY1_1;
-	private int ballX2, ballY2, ballX2_2, ballY2_2;
-	
+	private int angle = 0;
+	private int anchorX = 20;
+	private int anchorY = 20;
+	private int posX = 20 + anchorX;
+	private int posY = anchorY;
+	private int posX2 = 2*anchorX - posX;
+	private int posY2 = 2*anchorY - posY;
+	private int dirVert = 1;
+	private int dirHori = 1;
+	private int dirAngle = 1;
 	
 	public void paintComponent(Graphics g){
 		g.setColor(Color.WHITE);
