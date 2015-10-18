@@ -3,7 +3,7 @@ package boubouworld2;
 public class CoordinateSystem
 {
     //Instance variables
-     final double DELAY = 1.0E-5, WINDOWMAX = 1000.0;
+     final double DELAY = 1.0E-4, WINDOWMAX = 1000.0;
      final double C = 3.0E8, ELECTRONHOLE = 1.3E74, PLANCKHOLE = 6E51;
     
     public Vector position, velocity, acceleration;
