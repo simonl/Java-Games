@@ -1,4 +1,4 @@
-package boubouworld2;
+package javaapps.physicsobject;
 
 public class Particle
 {
