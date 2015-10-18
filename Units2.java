@@ -1,4 +1,4 @@
-
+package javaapps.physicsobject;
 
 public class Units
 {
@@ -132,20 +132,20 @@ public class Units
 			    this.amountCount    -   u.getAmountCount()    );
     }
 
-    public Units plus(Units u)
+    public Units plus(Units u) throws Exception
     {
 	if(this.equals(u))
 	    return new Units(this);
 	else
-	    throw new IllegalArgumentException(this + " != " + u);
+	    throw new IncompatibleUnitsException(this, u);
     }
 
-    public Units minus(Units u)
+    public Units minus(Units u) throws Exception
     {
 	if(this.equals(u))
 	    return new Units(this);
 	else
-	    throw new IllegalArgumentException(this + " != " + u);
+	    throw new IncompatibleUnitsException(this, u);
     }
 
     public Units inverse()
@@ -163,7 +163,7 @@ public class Units
 			    this.amountCount    * n    );
     }
 
-    public Units root(int n)
+    public Units root(int n) throws Exception
     {
 	if(this.isRootableBy(n))
 	    return new Units(   this.massCount      / n,
@@ -173,7 +173,7 @@ public class Units
 				this.tempCount      / n,
 				this.amountCount    / n    );
 	else
-	    throw new IllegalArgumentException("Cannot take the " + n + "th root of " + this + "!");
+	    throw new FractionalPowerUnitsException(this, n);
     }
 
     //TESTS
@@ -214,10 +214,10 @@ public class Units
 	return new Units(this);
     }
 
-    public void assign(Units u)
+    public void assign(Units u) throws Exception
     {
 	if(!this.equals(u))
-	    throw new IllegalArgumentException(this + " != " + u);
+	    throw new IncompatibleUnitsException(this, u);
 	/* NO ASSIGNMENT
 	this.massCount      = u.getMassCount();
 	this.lengthCount    = u.getLengthCount();

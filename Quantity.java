@@ -1,110 +1,204 @@
 
-public class Quantity extends Quantity_Number {
 
-	private final Complex_Number value;
-	private final Units units;
 
-	//CONSTRUCTORS
-	public Quantity() {
-		this(new Integer());
-	}
 
-	public Quantity(final Complex_Number value) {
-		this(value, Units.DIMENSIONLESS);
-	}
 
-	public Quantity(final Units units) {
-		this(new Integer(), units);
-	}
+//OLD
 
-	public Quantity(final Complex_Number value, final Units units) {
-		this.value = value;
-		this.units = units;
-	}
 
-	private Quantity(final Quantity q) {
-		this(q.value, q.units);
-	}
 
-	//ARITHMETIC
-	public Numeric plus(final Quantity other) {
-		return new Quantity((Complex_Number)this.value.plus(other.value), this.units.plus(other.units));
-	}
+public class Quantity
+{
+	/* Commonly used values */
+    public static final Quantity ZERO = new Quantity();
+    public static final Quantity ONE = new Quantity(1.0);
+    public static final Quantity TWO = new Quantity(2.0);
 
-	public Numeric times(final Quantity other) {
-		return new Quantity((Complex_Number)this.value.times(other.value), this.units.times(other.units));
-	}
+    /* Basic dimensional values */
+	public static final Quantity METER = new Quantity(1.0, Units.LENGTH);
+	public static final Quantity SECOND = new Quantity(1.0, Units.TIME);
+	public static final Quantity KILOGRAM = new Quantity(1.0, Units.MASS);
+	public static final Quantity KELVIN = new Quantity(1.0, Units.TEMPERATURE);
+	public static final Quantity MOLE = new Quantity(1.0, Units.AMOUNT);
+	public static final Quantity KILOPASCAL = new Quantity(1.0, Units.PRESSURE);
+	public static final Quantity COULOMB = new Quantity(1.0, Units.CHARGE);
 
-	public Numeric negative() {
-		return new Quantity((Complex_Number)this.value.negative(), this.units.negative());
-	}
+	public static final Quantity NEWTON = new Quantity(1.0, Units.FORCE);
+	public static final Quantity JOULE = new Quantity(1.0, Units.ENERGY);
+	public static final Quantity AMPERE = new Quantity(1.0, Units.CURRENT);
+	public static final Quantity VOLT = new Quantity(1.0, Units.POTENTIAL);
+	public static final Quantity WATT = new Quantity(1.0, Units.POWER);
+	public static final Quantity HERTZ = new Quantity(1.0, Units.FREQUENCY);
+	public static final Quantity OHM = new Quantity(1.0, Units.RESISTANCE);
 
-	public Numeric inverse() {
-		return new Quantity((Complex_Number)this.value.inverse(), this.units.inverse());
-	}
+    /* Physical Constants */
+    public static final Quantity G      = new Quantity(6.67428E-11, Units.FORCE.times(Units.LENGTH.div(Units.MASS).pow(2)));
+    public static final Quantity H      = new Quantity(6.626068E-34, Units.ACTION);
+    public static final Quantity C      = new Quantity(299792458, Units.SPEED);
+    public static final Quantity ELEMENTARY_CHARGE
+										= new Quantity(1.60217646E-19, Units.CHARGE);
+    public static final Quantity Ke     = new Quantity(8.854187817E-12, Units.RESISTANCE.times(Units.TIME));
+    public static final Quantity K      = new Quantity(1.3806504E-23, Units.ENERGY.div(Units.TEMPERATURE));
+    public static final Quantity A      = new Quantity(6.02214179E23, Units.AMOUNT.inverse());
 
-	//COMPARISONS
-	public int compareTo(final Quantity other) {
-		return 0;
-	}
+    private double value;
+    private final Units units;
 
-	public boolean isZero() {
-		return this.value.isZero();
-	}
+    //CONSTRUCTORS
+    public Quantity()
+    {
+	this(0.0, Units.DIMENSIONLESS);
+    }
 
-	public boolean isOne() {
-		return this.value.isOne();
-	}
+    public Quantity(double value)
+    {
+	this(value, Units.DIMENSIONLESS);
+    }
 
-	public boolean isI() {
-		return this.value.isI();
-	}
+    public Quantity(Units u)
+    {
+	this(1.0, u);
+    }
 
-	//CONVERSIONS
-	public Quantity_Number toQuantity() {
-		return this;
-	}
+    public Quantity(double value, Units u)
+    {
+	this.value = value;
+	this.units = new Units(u);
+    }
 
-	public Complex_Number toComplex() {
-		return this.value;
-	}
+    public Quantity(Quantity q)
+    {
+	this(q.getValue(), q.getUnits());
+    }
 
-	public Imaginary_Number toImaginary() {
-		return this.value.toImaginary();
-	}
+    //GETTERS
+    public double getValue()
+    {
+	return this.value;
+    }
 
-	public Real_Number toReal() {
-		return this.value.toReal();
-	}
+    public Units getUnits()
+    {
+	return this.units;
+    }
 
-	public Rational_Number toRational() {
-		return this.value.toRational();
-	}
+    //CUSTOM
+    public Quantity times(Quantity q)
+    {
+	return new Quantity(this.value * q.getValue(), this.units.times(q.getUnits()));
+    }
 
-	public Integer_Number toInteger() {
-		return this.value.toInteger();
-	}
+    public Quantity div(Quantity q)
+    {
+	return new Quantity(this.value / q.getValue(), this.units.div(q.getUnits()));
+    }
 
-	public long longValue() {
-		return this.value.longValue();
-	}
+    public Quantity plus(Quantity q)
+    {
+	return new Quantity(this.value + q.getValue(), this.units.plus(q.getUnits()));
+    }
 
-	public double doubleValue() {
-		return this.value.doubleValue();
-	}
+    public Quantity minus(Quantity q)
+    {
+	return this.plus(q.negative());
+    }
 
-	//UTILITIES
-	public Numeric clone() {
-		return new Quantity(this);
-	}
+    public Quantity negative()
+    {
+	return new Quantity(-this.value, this.units);
+    }
 
-	public String toString() {
-		return this.value + " " + this.units;
-	}
+    public Quantity pow(Quantity q)
+    {
+	if(q.isDimensionless())
+	    return new Quantity(Math.pow(this.value, (int)q.getValue()), this.units.pow((int)q.getValue()));
+	else
+	    throw new IllegalArgumentException(Units.DIMENSIONLESS + " != " + q.getUnits());
+    }
 
-	public static final Quantity_Number parseQuantity(final String s) {
-		final int space = s.indexOf(' ');
-		return new Quantity((Complex_Number)Numeric.parseNumeric(s.substring(0, space)),
-							Units.parseUnits(s.substring(space + 1)));
-	}
+    public Quantity root(Quantity q)
+    {
+	if(q.isDimensionless())
+	    return new Quantity(Math.pow(this.value, 1.0/(int)q.getValue()), this.units.root((int)q.getValue()));
+	else
+	    throw new IllegalArgumentException(Units.DIMENSIONLESS + " != " + q.getUnits());
+    }
+
+    public Quantity abs()
+    {
+	return new Quantity(Math.abs(this.value), this.units);
+    }
+
+    //TESTS
+    public boolean equals(Quantity q)
+    {
+	return this.hasSameValue(q) && this.isCompatible(q);
+    }
+
+    public boolean isCompatible(Quantity q)
+    {
+	return this.units.equals(q.getUnits());
+    }
+
+    public boolean hasSameValue(Quantity q)
+    {
+	return this.value == q.getValue();
+    }
+
+    public boolean isDimensionless()
+    {
+	return this.units.equals(Units.DIMENSIONLESS);
+    }
+
+    public boolean hasUnits()
+    {
+	return !this.isDimensionless();
+    }
+
+    public boolean isGreaterThan(Quantity q)
+    {
+	if(this.isCompatible(q))
+	    return this.value > q.getValue();
+	else
+	    throw new IllegalArgumentException(this.units + " != " + q.getUnits());
+    }
+
+    public boolean isLesserThan(Quantity q)
+    {
+	if(this.isCompatible(q))
+	    return this.value < q.getValue();
+	else
+	    throw new IllegalArgumentException(this.units + " != " + q.getUnits());
+    }
+
+    //UTILITIES
+    public String toString()
+    {
+	return this.value + " " + this.units;
+    }
+
+    public void assign(Quantity q)
+    {
+	this.value = q.getValue();
+	this.units.assign(q.getUnits());
+    }
+
+    public Quantity copy()
+    {
+	return new Quantity(this);
+    }
+
+    public static void main(String[] args)
+    {
+	System.out.println(ONE);
+	System.out.println(new Quantity(44, Units.SPEED));
+	System.out.println(new Quantity(44, Units.SPEED).pow(new Quantity()));
+	System.out.println((new Quantity(5, Units.MOMENTUM)).times(new Quantity(6, Units.SPEED)));
+	System.out.println((new Quantity(5, Units.ENERGY)).plus(new Quantity(6, Units.ENERGY)));
+	System.out.println((new Quantity(5, Units.FORCE)).plus(new Quantity(6, Units.ENERGY)));
+	System.out.println((new Quantity(5, Units.LENGTH)).pow(new Quantity(3, Units.DIMENSIONLESS)));
+	//System.out.println((new Quantity(5, Units.LENGTH)).pow(new Quantity(3, Units.TIME)));
+	System.out.println((new Quantity(5, Units.MOMENTUM)).equals(new Quantity(5, Units.SPEED)));
+	System.out.println((new Quantity(5, Units.SPEED)).equals(new Quantity(5, Units.SPEED)));
+    }
 }
