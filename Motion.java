@@ -1,67 +1,33 @@
 package javaapps.tankgame;
 
-import javax.swing.*;
-
-/** Card Object.
- *  Has a card suit, from 0 to 3.
- *  Has a face value from 1 to 13.
- *  Can display the card name from the face value and suit.
- *
- *  @authors Simon Langlois, Pierre Miguel
- *           and Vincenzo Patrinostro - A933125 - 420-111-DW section 1
- *  @version    12/04/2009
- */
-
-
-public class CoordinateSystem
+public class Motion
 {
     //Instance variables
-    public static final double DELAY = 0.05;
-    private static double time;
-    
-    private double positionX, positionY;
-    private static double limitLeft = 10.0, limitRight = 982.0, limitDown = 0.0, limitUp = 900.0;
-    
-    private double speedX, speedY;
-    private double limitSpeedX = 100.0, limitSpeedY = 100.0;
-    
-    private double accelX, accelY;
-    private double limitAccelX = 100.0, limitAccelY = 100.0;
-    
+    public static final double DELAY = 0.1;
+    private double speedX, speedY, accelX, accelY;
+    private double limitSpeedX = 100.0, limitSpeedY = 100.0, limitAccelX = 100.0, limitAccelY = 100.0;
+	
     
     //Constructors
+    public Motion()
+    {
     
-    public CoordinateSystem()
+    }
+    
+    public Motion(double speedX, double speedY, double accelX, double accelY)
     {        
-	    setLimits(30.0, 0.0, 1.0, 0.0);
-	setPositionX(getRandomNumber(limitLeft+10.0, limitRight-10.0));
+	this.speedX = speedX;
+	this.speedY = speedY;
+	this.accelX = accelX;
+	this.accelY = accelY;
     }
     
-    public CoordinateSystem(double positionX, double positionY, double speedX, double speedY)
+    public void setLimits(double limit1, double limit2, double limit3, double limit4)
     {
-	    setLimits(100.0, 100.0, 0.0, 9.8);
-	setPositionX(positionX);
-	setPositionY(positionY);
-	setSpeedX(speedX);
-	setSpeedY(speedY);
-	setAccelY(-9.8);
-    }
-    
-    //Getters
-    
-    public double getTime()
-    {
-	return time;
-    }    
-    
-    public double getPositionY()
-    {
-	return positionY;
-    }
-    
-    public double getPositionX()
-    {
-	return positionX;
+	limitSpeedX = limit1;
+	limitSpeedY = limit2;
+	limitAccelX = limit3;
+	limitAccelY = limit4;
     }
     
     public double getSpeedX()
@@ -84,56 +50,6 @@ public class CoordinateSystem
 	return accelY;
     }
     
-    public double getLimitSpeedX()
-    {
-	return limitSpeedX;
-    }
-    
-    public double getLimitSpeedY()
-    {
-	return limitSpeedY;
-    }
-    
-    public double getLimitAccelX()
-    {
-	return limitAccelX;
-    }
-    
-    public double getLimitAccelY()
-    {
-	return limitAccelY;
-    }
-    
-    
-    //Setters  
-      
-    public void setTime(double time)
-    {
-	if(time < 0.0)
-	    time = 0.0;
-	    
-	this.time = time;
-    }
-    
-    public void setPositionX(double positionX)
-    {
-	if(positionX > limitRight)
-	    positionX = limitRight;
-	else if(positionX < limitLeft)
-	    positionX = limitLeft;
-
-	this.positionX = positionX;
-    }
-    
-    public void setPositionY(double positionY)
-    {
-	if(positionY > limitUp)
-	    positionY = limitUp;
-	else if(positionY < limitDown)
-	    positionY = limitDown;
-	    
-	this.positionY = positionY;
-    }    
     
     public void setSpeedX(double speedX)
     {
@@ -175,41 +91,21 @@ public class CoordinateSystem
 	this.accelY = accelY;
     }
     
-    public void setLimits(double limit1, double limit2, double limit3, double limit4)
+    public void updateSpeed()
     {
-	limitSpeedX = limit1;
-	limitSpeedY = limit2;
-	limitAccelX = limit3;
-	limitAccelY = limit4;
+	setSpeedX(accelX*DELAY);
+	setSpeedY(accelY*DELAY);
     }
     
-    
-    //
-    //Custom methods
-    //
-	
-    private double getRandomNumber(double minimum, double maximum)
-    {
-	return (Math.random() * (maximum-minimum) + minimum);
-    }
-	
-    public void updateCoordinates()
-    {
-	setSpeedX(getSpeedX() + getAccelX() * DELAY);
-	setSpeedY(getSpeedY() + getAccelY() * DELAY);
-	
-	setPositionX(getPositionX() + getSpeedX() * DELAY);
-	setPositionY(getPositionY() + getSpeedY() * DELAY);
-    }
     
     public double getVelocity()
     {
-	return Math.pow(getSpeedX() * getSpeedX() + getSpeedY() * getSpeedY(), 0.5);
+	return Math.pow(speedX * speedX + speedY * speedY, 0.5);
     }
     
     public double getForce()
     {
-	return Math.pow(getAccelX() * getAccelX() + getAccelY() * getAccelY(), 0.5);
+	return Math.pow(accelX * accelX + accelY * accelY, 0.5);
     }
     
     public String timeToStop()
@@ -230,16 +126,16 @@ public class CoordinateSystem
     }
     
     
-    public String[] getIntersection(CoordinateSystem other)
+    public String[] getIntersection(Coordinates thisPoint, Coordinates otherPoint, Motion otherMovement)
     {
 	boolean theyIntersect;
 	double intersectX1 = 0.0, intersectX2 = 0.0, intersectY1 = 0.0, intersectY2 = 0.0;
 	double A, B, C;
 	String[] solutionsX = {"", ""}, solutionsY = {"", ""};
 	
-	    A = (getAccelX()-other.getAccelX())/2.0;
-	    B = getSpeedX()-other.getSpeedX();
-	    C = getPositionX()-other.getPositionX();
+	    A = (getAccelX()-otherMovement.getAccelX())/2.0;
+	    B = getSpeedX()-otherMovement.getSpeedX();
+	    C = thisPoint.getPositionX()-otherPoint.getPositionX();
 	
 	    solutionsX = solveQuadratic(A, B, C);
 		
@@ -257,9 +153,9 @@ public class CoordinateSystem
 	    if(theyIntersect)
 	    {
 	    
-		A = (getAccelY()-other.getAccelY())/2.0;
-		B = getSpeedY()-other.getSpeedY();
-		C = getPositionY()-other.getPositionY();
+		A = (getAccelY()-otherMovement.getAccelY())/2.0;
+		B = getSpeedY()-otherMovement.getSpeedY();
+		C = thisPoint.getPositionY()-otherPoint.getPositionY();
 	
 		solutionsY = solveQuadratic(A, B, C);
 		
@@ -335,13 +231,4 @@ public class CoordinateSystem
 	return answers;
     }
     
-    public double getProximity(CoordinateSystem point)
-    {        
-	return (Math.pow(Math.pow(point.getPositionX()-getPositionX(), 2.0) + Math.pow(point.getPositionY()-getPositionY(), 2.0), 0.5)); 
-    }
-    
-    public boolean checkIfSamePosition(CoordinateSystem point)
-    {
-	return (getPositionX() == point.getPositionX() && getPositionY() == point.getPositionY());
-    }
 }
