@@ -6,7 +6,7 @@ import javax.imageio.*;
 
 public class WindowMomentum extends JFrame
 {
-	public PanneauMomentum panel = new PanneauMomentum();
+	private PanneauMomentum panel = new PanneauMomentum();
 	
 	public static final int FPS = 1000;
 	public static final double DELAY = (int)(1.0/FPS) * 1000;
@@ -15,21 +15,20 @@ public class WindowMomentum extends JFrame
 	private int frameY = 1000;
 	private int frameZ = 1000;
 	
-	public WindowMomentum(String s, int limitU, int limitD)
+	public WindowMomentum(String s, int limit)
 	{
 	    this.setTitle(s);
-	    this.setSize(900, 900);
+	    this.setSize(limit+50, limit+50);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
 	    this.setContentPane(panel);
 	    this.setVisible(true);
 	    
-	    panel.realU = limitU;
-	    panel.realD = limitD;
+	    panel.limit = limit;
 	}
 	
 		
-	public void paintImage(Particle[] points, int num, double time)
+	public void paintImage(Particle[] points, int num)
 	{
 		if(panel.balls == null)
 		{
@@ -41,8 +40,6 @@ public class WindowMomentum extends JFrame
 		{
 		    panel.balls[i] = assignCoordinates(points[i].motion.position.copy());
 		}
-		
-		panel.time = time;
 		
 		// panel.ball1 = assignCoordinates(point1);
 		// panel.ball2 = assignCoordinates(point2);
@@ -70,16 +67,8 @@ public class WindowMomentum extends JFrame
 	
 	public void assignConstants(double kE, double p)
 	{
-	    panel.kineticEnergy = kE;
-	    panel.momentum = p;
-	}
-	
-	public void setConstants()
-	{
-	    panel.lowestE = 9E10;
-	    panel.lowestP = 9E10;
-	    panel.highestE = 0.0;
-	    panel.highestP = 0.0;
+	    panel.kineticEnergy = "" + kE;
+	    panel.momentum = "" + p;
 	}
 	
 }
