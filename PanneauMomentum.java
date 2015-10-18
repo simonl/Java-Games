@@ -6,10 +6,10 @@ import javax.imageio.*;
 
 public class PanneauMomentum extends JPanel
 {
-	// public Vector ball1 = new Vector(), ball2 = new Vector(), ball3 = new Vector(), ball4 = new Vector();
 	public double ballR = 50.0;
-	public String kineticEnergy, momentum;
-	public int num, limit;
+	public double kineticEnergy, momentum;
+	public double lowestE, highestE, diffE, lowestP, highestP, diffP, time;
+	public int num, limitU = 700, limitD = 0, zFocus = 100, realU, realD;
 	public Vector[] balls = null;
 	
 	public void paintComponent(Graphics g){
@@ -19,27 +19,78 @@ public class PanneauMomentum extends JPanel
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
-		g2d.setColor(Color.red);
-		    g2d.drawRect(0, 0, limit, limit);
-		
-		
-		    // g2d.fillOval((int)(ball1.getX()-ballR), (int)(ball1.getY()-ballR), (int)(ballR*2.0), (int)(ballR*2.0));
-		    // g2d.fillOval((int)(ball2.getX()-ballR), (int)(ball2.getY()-ballR), (int)(ballR*2.0), (int)(ballR*2.0)); 
-		    // g2d.fillOval((int)(ball3.getX()-ballR), (int)(ball3.getY()-ballR), (int)(ballR*2.0), (int)(ballR*2.0)); 
-		    // g2d.fillOval((int)(ball4.getX()-ballR), (int)(ball4.getY()-ballR), (int)(ballR*2.0), (int)(ballR*2.0)); 
-		    
-		    
-		    
-		for(int i = 0; i < num; i ++)
+		g2d.setColor(Color.BLUE); 
+		for(int i = 50; i <= 700; i = i + 25)
 		{
-		    g2d.fillOval((int)(balls[i].getX()-ballR), (int)(balls[i].getY()-ballR), (int)(ballR*2.0), (int)(ballR*2.0));
+		    //double mod = 1.0 * zFocus * zFocus / i / i;
+		    double mod = 1.0 * zFocus / i;
+		    
+		    int box = (int)((realU - realD) * mod);
+		    g2d.drawRect((limitU - box) / 2, (limitU - box) / 2, box , box);
+		    
+		    if(i == 700)
+		    {
+			g2d.drawLine(0, 0, (limitU - box) / 2, (limitU - box) / 2);
+			g2d.drawLine(0, limitU, (limitU - box) / 2, (limitU - box) / 2 + box);
+			g2d.drawLine(limitU , 0, (limitU - box) / 2 + box, (limitU - box) / 2);
+			g2d.drawLine(limitU, limitU, (limitU - box) / 2 + box, (limitU - box) / 2 + box);
+		    }
 		}
 		
-		    if(kineticEnergy != null)
-			g2d.drawString(kineticEnergy, 10, 20);
-		    if(momentum != null)
-		    g2d.drawString(momentum, 10, 35);
-		      // this.getHeight()-
+		    
+		    g2d.setColor(Color.DARK_GRAY);
+		for(int i = 0; i < num; i ++)
+		{
+		    //double mod = 1.0 * zFocus * zFocus / balls[i].getZ() / balls[i].getZ();
+		    double mod = 1.0 * zFocus / balls[i].getZ();
+		    
+		    double ballReal = ballR * mod;
+		    
+		    int box = (int)((realU - realD) * mod);
+		    
+		    int bound = (int)((limitU - box) / 2);
+		    
+		    g2d.fillOval((int)(balls[i].getX() * mod + bound - ballReal), (int)(bound + box - ballReal), (int)(ballReal * 2.0), (int)(ballReal * 2.0));
+		}
+		    
+		    g2d.setColor(Color.BLUE);
+		for(int i = 0; i < num; i ++)
+		{
+		    //double mod = 1.0 * zFocus * zFocus / balls[i].getZ() / balls[i].getZ();
+		    double mod = 1.0 * zFocus / balls[i].getZ();
+		    
+		    double ballReal = ballR * mod;
+		    
+		    int box = (int)((realU - realD) * mod);
+		    
+		    int bound = (int)((limitU - box) / 2);
+		    
+		    g2d.fillOval((int)(balls[i].getX() * mod + bound - ballReal), (int)(balls[i].getY() * mod + bound - ballReal), (int)(ballReal * 2.0), (int)(ballReal * 2.0));
+		}
+		
+		
+		    if(kineticEnergy < lowestE)
+			lowestE = kineticEnergy;
+		    if(kineticEnergy > highestE)
+			highestE = kineticEnergy;
+			
+		    if(momentum < lowestP)
+			lowestP = momentum;
+		    if(momentum > highestP)
+			highestP = momentum;
+			
+			diffE = highestE - lowestE;
+			diffP = highestP - lowestP;
+			
+			 
+		g2d.setColor(Color.RED);              
+			g2d.drawString("Kinetic Energy :    " + kineticEnergy, 10, 20);
+			g2d.drawString("    Ranging from :    " + lowestE + "    to    " + highestE + "    ( " + diffE + "    OR    " + Math.round(diffE/kineticEnergy*10000.0)/100.0 + "% )", 10, 35);
+			
+			g2d.drawString("Momentum magnitude :    " + momentum, 10, 50);
+			g2d.drawString("    Ranging from :    " + lowestP + "    to    " + highestP + "    ( " + diffP + "    OR    " + Math.round(diffP/momentum*10000.0)/100.0 + "% )", 10, 65);
+			
+			g2d.drawString("Time Elapsed :    " + time, 10, 80);
 	}
  
 	
