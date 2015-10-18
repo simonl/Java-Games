@@ -1,23 +1,25 @@
 
-public class Binding<K, V> {
-	private final K key;
-	private final V value;
+public class Binding {
+	private final String name;
+	private Object value;
 
-	public Binding(K key, V value) {
-		this.key = key;
+	public Binding(final String name, final Object value) {
+		this.name = name;
 		this.value = value;
 	}
 
-	public K getKey() {
-		return this.key;
-	}
-
-	public V getValue() {
+	public Object value() {
 		return this.value;
 	}
 
-	public String toString() {
-		return key + " :: " + value;
+	public boolean setValue(final Object value) {
+		this.value = value;
+		return true;
 	}
 
+	public boolean maps(final String name) {
+		return this.name.equals(name);
+	}
 }
+
+
