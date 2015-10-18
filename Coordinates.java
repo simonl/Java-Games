@@ -1,93 +1,64 @@
-package javaapps.physicsobject;
 
 public class Coordinates
 {
     //Instance variables
-    private double X, Y, Z;
-	
-    
+    public static final double DELAY = 0.1;
+    private double time, positionX, positionY;
+
+
     //Constructors
     public Coordinates()
     {
-    
+
     }
-    
-    public Coordinates(double X)
-    {        
-	this.X = X;
-    }
-    
-    public Coordinates(double X, double Y)
-    {        
-	this.X = X;
-	this.Y = Y;
-    }
-    
-    public Coordinates(double X, double Y, double Z)
-    {        
-	this.X = X;
-	this.Y = Y;
-	this.Z = Z;
-    }
-    
-    
-    public double getX()
+
+    public Coordinates(double time, double positionX, double positionY)
     {
-	return X;
+	this.time = time;
+	this.positionY = positionY;
+	this.positionX = positionX;
     }
-    
-    public double getY()
+
+    public double getTime()
     {
-	return Y;
+	return time;
     }
-    
-    public double getZ()
+
+    public double getPositionY()
     {
-	return Z;
+	return positionY;
     }
-    
-	
-    public void setX(double X)
+
+    public double getPositionX()
     {
-	this.X = X;
+	return positionX;
     }
-    
-    public void setY(double Y)
+
+    public void setTime(double time)
     {
-	this.Y = Y;
+	this.time = time;
     }
-    
-    public void setZ(double Z)
+
+    public void setPositionY(double positionY)
     {
-	this.Z = Z;
+	this.positionY = positionY;
     }
-    
-    
+
+    public void setPositionX(double positionX)
+    {
+	this.positionX = positionX;
+    }
+
     //CUSTOM
-    public void updateCoordinates(double dX)
+    public void updatePosition(double speedX, double speedY)
     {
-	setX(getX() + dX);
+	setPositionX(getPositionX() + speedX*DELAY);
+	setPositionY(getPositionY() + speedY*DELAY);
+	setTime(getTime() + DELAY);
     }
-    
-    public void updateCoordinates(double dX, double dY)
+
+    public double getProximity(Coordinates point)
     {
-	setX(getX() + dX);
-	setY(getY() + dY);
-    }
-    
-    public void updateCoordinates(double dX, double dY, double dZ)
-    {
-	setX(getX() + dX);
-	setY(getY() + dY);
-	setZ(getZ() + dZ);
-    }
-    
-    public double getDifference(Coordinates point)
-    {        
-	double deltaX = point.getX() - getX();
-	double deltaY = point.getY() - getY();
-	double deltaZ = point.getZ() - getZ();
-	
-	return (Math.pow(Math.pow(deltaX, 2.0) + Math.pow(deltaY, 2.0) + Math.pow(deltaZ, 2.0), 0.5)); 
+	return (Math.pow(Math.pow(point.getPositionX()-positionX, 2.0) + Math.pow(point.getPositionY()-positionY, 2.0), 0.5));
     }
 }

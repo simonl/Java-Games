@@ -1,137 +1,49 @@
-package javaapps.physicsobject;
+
 
 public class Dimensions
 {
     //Instance variables
-    double X, Y, Z;
-    double R;
-    int form;
-	
-    
+    private double width, height;
+    private int form;
+
+
     //Constructors
     public Dimensions()
     {
-    
+
     }
-    
-    public Dimensions(double X)
-    {        
-	this.X = X;
-	
-	this.form = 1;
-    }
-    
-    public Dimensions(double X, double Y)
-    {        
-	this.X = X;
-	this.Y = Y;
-	
-	this.form = 1;
-    }
-    
-    public Dimensions(double X, double Y, int Z)
-    {        
-	this.X = X;
-	this.Y = Y;
-	this.Z = Z;
-	
-	this.form = 1;
-    }
-    
-    public double getX()
+
+    public Dimensions(double width, double height, int form)
     {
-	return X;
+	this.height = height;
+	this.width = width;
+	this.form = form;
     }
-    
-    public double getY()
+
+    public double getWidth()
     {
-	return Y;
+	return width;
     }
-    
-    public double getZ()
+
+    public double getHeight()
     {
-	return Z;
+	return height;
     }
-    
-    public void setY(double Y)
+
+    public void setHeight(double height)
     {
-	this.Y = Y;
+	this.height = height;
     }
-    
-    public void setX(double X)
+
+    public void setWidth(double width)
     {
-	this.X = X;
+	this.width = width;
     }
-    
-    public void setZ(double Z)
-    {
-	this.Z = Z;
-    }
-    
-    
+
     //Custom Methods
-    public boolean checkIfIntersect(Dimensions object2, Vector separation)
+    public void checkIfOverlap(Coordinates thisPoint, Coordinates otherPoint, Dimensions otherSize)
     {
-	boolean answer;
-	boolean checkX;
-	boolean checkY;
-	boolean checkZ;
-	
-	if(form == 0 && object2.form == 0)
-	{
-	    answer = Math.abs(separation.getMagnitude()) < getRadius() + object2.getRadius();
-		
-		    // System.out.println("        CHECK INTERSECTION");
-		    // System.out.println("    " + separation);
-		    // System.out.println("    " + answer);
-		    // System.out.println("        END OF CHECK INTERSECTION");
-	}
-	else 
-	{
-	    if(form != 0 && object2.form != 0)
-	    {
-		checkX =  Math.abs(separation.getX()) < getX() + object2.getX();
-		checkY =  Math.abs(separation.getY()) < getY() + object2.getY();
-		checkZ =  Math.abs(separation.getZ()) < getZ() + object2.getZ();
-	
-		answer = checkX || checkY || checkZ;
-	    }
-	    else 
-	    {
-		if(form == 0)
-		{
-		    answer = false;
-		}
-		else
-		{
-		    answer = false;
-		}
-	    }
-	}    
-	
-	return answer;
+
     }
-    
-    public double getRadius()
-    {   
-	return getX()*getX() + getY()*getY() + getZ()*getZ();
-    }
-    
-    public double getArea()
-    {
-	if(form == 0)
-	    return getRadius() * getRadius() * 4.0 * Math.PI;
-	else
-	    return 2.0*(getX()*getY() + getX()*getZ() + getY()*getZ());
-    }
-    
-    public double getVolume()
-    {
-	if(form == 0)
-	    return 4.0/3.0 * Math.PI * Math.pow(getRadius(), 3.0);
-	else
-	    return getX()*getY()*getZ();
-    }
-    
-    
+
 }
